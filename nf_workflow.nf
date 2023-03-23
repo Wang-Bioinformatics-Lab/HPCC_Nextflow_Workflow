@@ -17,6 +17,7 @@ process processData {
     file 'output.tsv'
 
     """
+    which python
     python $TOOL_FOLDER/script.py $input output.tsv
     """
 }
