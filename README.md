@@ -28,3 +28,19 @@ You might need to checkout the module, do this by running
 git submodule init
 git submodule update
 ```
+
+## Running on HPCC
+
+Create a nextflow conda environment
+```
+conda create -n nextflow python=3.9
+conda activate nextflow
+conda install -c bioconda nextflow
+```
+
+Run the workflow
+```
+make run_hpcc
+```
+
+This workflow will utilize a custom conda env that is created in the work folder and then used by the actual compute jobs

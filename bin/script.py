@@ -1,7 +1,6 @@
 import sys
 import argparse
-
-import argparse
+import pyteomics
 
 parser = argparse.ArgumentParser(description='Process some integers.')
 parser.add_argument('input_filename')
