@@ -35,7 +35,8 @@ Create a nextflow conda environment
 ```
 conda create -n nextflow python=3.9
 conda activate nextflow
-conda install -c bioconda nextflow
+conda install -c conda-forge mamba
+mamba install -c bioconda nextflow
 ```
 
 Run the workflow
