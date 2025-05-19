@@ -57,5 +57,5 @@ srun -p gpu --gres=gpu:1 -c 8 --mem 8GB --pty bash -l
 Here is how we do it with sbatch
 
 ```
-sbatch -p gpu --gres=gpu:1 -c 8 --mem 8GB ./run_torch.sh
+sbatch ./run_torch.sh
 ```
