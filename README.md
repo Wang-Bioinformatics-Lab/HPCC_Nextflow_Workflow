@@ -46,7 +46,12 @@ make run_hpcc
 
 This workflow will utilize a custom conda env that is created in the work folder and then used by the actual compute jobs
 
-### Testing script on hpcc with gpu
+Running the workflow with GPU resources
+```
+make run_hpcc_gpu
+```
+
+### Testing script on HPCC with gpu
 
 This will get us an interactive session on HPCC with a GPU
 
