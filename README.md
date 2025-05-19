@@ -45,3 +45,17 @@ make run_hpcc
 ```
 
 This workflow will utilize a custom conda env that is created in the work folder and then used by the actual compute jobs
+
+### Testing script on hpcc with gpu
+
+This will get us an interactive session on HPCC with a GPU
+
+```
+srun -p gpu --gres=gpu:1 -c 8 --mem 8GB --pty bash -l
+```
+
+Here is how we do it with sbatch
+
+```
+sbatch -p gpu --gres=gpu:1 -c 8 --mem 8GB ./run_torch.sh
+```
