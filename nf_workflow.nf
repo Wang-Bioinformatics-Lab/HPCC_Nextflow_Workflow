@@ -27,7 +27,7 @@ process processGPU {
 
     conda "$TOOL_FOLDER/conda_env_gpu.yml"
 
-    clusterOptions "--gres=gpu:1"
+    clusterOptions "--partition=gpu --gres=gpu:1 --cpus-per-task=8 --mem=8G"
 
     input:
     val input
