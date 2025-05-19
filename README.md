@@ -39,14 +39,14 @@ conda install -c conda-forge mamba
 mamba install -c bioconda nextflow
 ```
 
-Run the workflow
+Run the workflow - this will run one process on cpu and another on gpu
 ```
 make run_hpcc
 ```
 
 This workflow will utilize a custom conda env that is created in the work folder and then used by the actual compute jobs
 
-Running the workflow with GPU resources
+Running the workflow with GPU resources - this will run both on gpu
 ```
 make run_hpcc_gpu
 ```
