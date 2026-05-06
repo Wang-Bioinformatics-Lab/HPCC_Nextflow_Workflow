@@ -160,3 +160,58 @@ singularity inspect helloworld.sif
 srun --partition=short --time=00:05:00 --mem=1G \
   singularity run helloworld.sif "manual run"
 ```
+
+## Running Nextflow with the Singularity container on HPCC
+
+Once `helloworld.sif` is on HPCC, you can drive it through Nextflow on SLURM
+via a dedicated config:
+
+- `nf_workflow_singularity.nf` — minimal Nextflow workflow with one process
+  (`processHello`) that runs `/usr/local/bin/hello` from inside the container.
+- `nextflow_hpcc_singularity.config` — `process.executor = 'slurm'`,
+  `singularity.enabled = true`, `process.container` pointing at the `.sif`
+  on `/bigdata`, and `process.module = 'singularity/4.3.2'` so the SLURM
+  job wrapper has `singularity` on PATH (compute nodes don't load lmod for
+  non-login shells).
+
+Run on HPCC:
+
+```
+ssh hpcc
+source activate nextflow
+cd ~/HPCC_Nextflow_Workflow
+make run_hpcc_singularity
+```
+
+Output:
+
+```
+$ cat nf_output_singularity/hello.txt
+============================================
+Hello from inside the container.
+  hostname : c05
+  date     : 2026-05-06T...
+  os       : Alpine Linux v3.19
+  whoami   : <your-netid>
+  args     : from-nextflow-on-hpcc
+============================================
+```
+
+Override the `.sif` path without editing the config:
+
+```
+nextflow run ./nf_workflow_singularity.nf \
+  -c nextflow_hpcc_singularity.config \
+  --container_sif /bigdata/<group>/<netid>/path/to/your.sif
+```
+
+### Gotchas we hit (and the fix that's already in the config)
+
+- **`env: 'singularity': No such file or directory`** in the SLURM job —
+  compute-node bash isn't a login shell, so lmod isn't loaded. Fix:
+  `process.module = 'singularity/4.3.2'` in the config injects
+  `module load singularity/4.3.2` into the job wrapper.
+- **`FATAL: stat /bin/bash: no such file or directory`** — Alpine ships
+  busybox `sh` only; Nextflow's wrapper needs `/bin/bash`. Fix: the
+  Dockerfile installs bash via `apk add --no-cache bash`. Any custom image
+  used as a Nextflow process container needs bash inside.

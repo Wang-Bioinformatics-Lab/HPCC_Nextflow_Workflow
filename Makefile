@@ -7,6 +7,13 @@ run_hpcc:
 run_hpcc_gpu:
 	nextflow run ./nf_workflow.nf -resume -c nextflow_hpcc_gpu.config -with-conda
 
+# Run the helloworld Singularity container through Nextflow on HPCC.
+# Run this *on* the HPCC login node (with the `nextflow` conda env active).
+# The .sif must already be on HPCC — `make hello_all_hpcc` from a laptop
+# builds and ships it.
+run_hpcc_singularity:
+	nextflow run ./nf_workflow_singularity.nf -resume -c nextflow_hpcc_singularity.config
+
 run_docker:
 	nextflow run ./nf_workflow.nf -resume -with-docker <CONTAINER NAME>
 
